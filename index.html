@@ -2,7 +2,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<title>ibootstrap - Bootstrap可视化布局系统</title>
+	<title>可视化布局系统</title>
 	<!-- Le styles -->
 	<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
 	<link href="bootstrap/layoutit.css" rel="stylesheet">
@@ -26,15 +26,9 @@
 <body class="edit" style="min-height: 551px;">
 	<div class="navbar navbar-inverse navbar-fixed-top navbar-layoutit">
 		<div class="navbar-header">
-			<button data-target="navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-				<span class="glyphicon-bar"></span>
-				<span class="glyphicon-bar"></span>
-				<span class="glyphicon-bar"></span>
-			</button>
 			<a class="navbar-brand" href="http://www.ibootstrap.cn/">
 				<img src="bootstrap/favicon.png">
-				ibootstrap
-				<span class="label label-default">BETA</span>
+				可视化布局系统
 			</a>
 		</div>
 		<div class="collapse navbar-collapse">
@@ -57,10 +51,6 @@
 						<button type="button" class="btn btn-xs btn-primary" id="button-download-modal" data-target="#downloadModal" role="button" data-toggle="modal"> <i class="glyphicon-chevron-down glyphicon"></i>
 							
 						</button>
-						<!--  <button class="btn btn-xs btn-primary" id="button-share-modal" href="/share/indexV3" role="button" data-toggle="modal" data-target="#shareModal"> <i class="glyphicon-share glyphicon"></i>
-						分享
-					</button>
-					-->
 					<button class="btn btn-xs btn-primary" href="#clear" id="clear">
 						<i class="glyphicon-trash glyphicon"></i>
 						清空
@@ -1787,92 +1777,11 @@
 </div>
 <!--/row-->
 
-<script type="text/javascript">
-	$(document).ready(function(){
-		// alert($('#download-layout').html());		
-	});
-</script>
-</div>
-<!--/.fluid-container-->
 
 <script type="text/javascript">
-
-		function saveLayout(){
-			return;
-			$.ajax({  
-				type: "POST",  
-				url: "/build_v3/saveLayout",  
-				data: { 'layout-v3': $('.demo').html() },  
-				success: function(data) {
-					//updateButtonsVisibility();
-				}
-			});
-		}
-		
-		//代码
-		function downloadLayout(){
-			$.ajax({  
-				type: "POST",  
-				url: "/build_v3/downloadLayout",  
-				data: { 'layout-v3': $('#download-layout').html() },  
-				success: function(data) { window.location.href = '/build_v3/download'; }
-			});
-		}
-		
-		function downloadHtmlLayout(){
-			$.ajax({  
-				type: "POST",  
-				url: "/build_v3/downloadLayout",  
-				data: { 'layout-v3': $('#download-layout').html() },  
-				success: function(data) { window.location.href = '/build_v3/downloadHtml'; }
-			});
-		}
-
-		function undoLayout() {
-			
-			$.ajax({  
-				type: "POST",  
-				url: "/build_v3/getPreviousLayout",  
-				data: { },  
-				success: function(data) {
-					undoOperation(data);
-				}
-			});
-		}
-
-		function redoLayout() {
-			
-			$.ajax({  
-				type: "POST",  
-				url: "/build_v3/getPreviousLayout",  
-				data: { },  
-				success: function(data) {
-					redoOperation(data);
-				}
-			});
-		}
-
 		$(document).on('hidden.bs.modal', function (e) {
 		    $(e.target).removeData('bs.modal');
 		});
-
-		$('body').on('click', '#continue-share-non-logged', function () {
-	   		 $('#share-not-logged').hide();
-			 $('#share-logged').removeClass('hide');
-	    	 $('#share-logged').show();
-		});
-
-		$('body').on('click', '#continue-download-non-logged', function () {
-	   		 $('#download-not-logged').hide();
-			 $('#download').removeClass('hide');
-			 $('#download').show();
-			 $('#downloadhtml').removeClass('hide');
-			 $('#downloadhtml').show();
-			 $('#download-logged').removeClass('hide');
-	    	 $('#download-logged').show();
-		});
-
-		
     </script>
 
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
@@ -1904,66 +1813,14 @@
 
 <script type="text/javascript">
 	downloadLayoutSrc();
-	$('#modal-download-sign-in-button').click(function(event){
-		$('.help-inline').hide();
-		var form = $('#boxDownloadLoginForm');
-		var ajaxLoginUrl = '/login/ajaxLogin';
-		jQuery.ajax({
-	         type : "post",
-	         dataType : "json",
-	         url : ajaxLoginUrl,
-	         data : form.serialize(),
-	         success: function(response) {
-	        	 if(response.success){
-	        		 $('#download-not-logged').hide();
-	        		 $('#download').removeClass('hide');
-	        		 $('#download').show();
-	        		 $('#downloadhtml').removeClass('hide');
-	        		 $('#downloadhtml').show();
-	        		 $('#download-logged').removeClass('hide');
-		        	 $('#download-logged').show();
-	        	 }else {
-		        	if(response.errors && response.errors.length > 0){
-		        		$.each(response.errors, function(i, item) {
-		                    $('#'+item.field+'-download-error').html(item.error);
-		                    $('#'+item.field+'-download-error').show();
-		        		}); 
-			        } 
-		         }
-			},
-			error: function(response) {
-				
-			}
-		});
-		
-		return false;
-	});
+	
+	//禁止右键菜单
+	$("body").bind("contextmenu", function()
+    {
+        return false;
+    });
 </script>
 
-</div>
-
-<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true"></div>
-<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h4 class="modal-title">联系我们</h4>
-	</div>
-	<div class="modal-body">
-
-		<div id="download-logged" class="">
-			<div class="alert alert-info">
-				有任何问题，可邮件联系
-				<a href="mailto:admin@ibootstrap.cn">admin@ibootstrap.cn</a>
-			</div>
-		</div>
-
-	</div>
-</div>
-<!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
 </div>
 
 
